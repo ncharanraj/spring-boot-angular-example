@@ -18,5 +18,12 @@ pipeline {
             }
         }
         }
+        stage('Archive Artifacts') {
+        steps {
+            archiveArtifacts './backend/target/*.jar'
+            archiveArtifacts './frontend/dist/*'
+        }
+        }
     }
+  }
 }
