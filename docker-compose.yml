@@ -1,0 +1,13 @@
+version: '2.1'
+
+services:
+  demo_29may:
+    image: demo_29may
+    build: ./backend/
+    ports:
+      - 9000:8080
+  client:
+    image: client
+    build: ./frontend/
+    ports:
+      - 4200:80

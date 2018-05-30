@@ -1,0 +1,70 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: install dependcies
+      yum: 
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - git
+        - java
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+    - name: Remove repository from a specific repo file
+      yum_repository:
+        name: epel
+        file: epel
+        state: absent
+    - name: Add repository
+      yum_repository:
+        name: jenkins
+        description: Jenkins repo 
+        baseurl: http://pkg.jenkins.io/redhat
+    - name: adding jenkins keys
+      rpm_key:
+        state: present
+        key: http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+    - name: Install jenkins server
+      yum:
+        name: jenkins
+        state: present
+    - name: Start the Jenkins service
+      service:
+        name: jenkins
+        state: started
+        enabled: yes
+    - name: Add Docker repository
+      yum_repository:
+        name: docker-ce-stable
+        description: Docker CE Stable - $basearch
+        baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+        gpgkey: https://download.docker.com/linux/centos/gpg
+    - name: Install Docker
+      yum:
+        name: docker-ce
+        state: latest
+    - name: Start the docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+    - name: Add jenkins user to docker group
+      user:
+        name: jenkins
+        group: docker
+    - name: install docker-compose with pip
+      pip:
+        state: present 
+        name: docker-compose
+    - get_url:
+        dest: /tmp/setup # required. Absolute path of where to download the file to.,If C(dest) is a directory, either the server provided filename or, if none provided, the base name of the URL on the remote server will be used. If a directory, C(force) has no effect.,If C(dest) is a directory, the file will always be downloaded (regardless of the C(force) option), but replaced only if the contents changed..
+        url: https://rpm.nodesource.com/setup_8.x # required. HTTP, HTTPS, or FTP URL in the form (http|https|ftp)://[user[:pass]]@host.domain[:port]/path
+    - name: Download nodejs
+      command: "bash /tmp/setup"
+    - name: Install nodejs
+      yum:
+        name: nodejs
+        state: present
+    # - name: Install httpd server
+    #   yum: "name=httpd  state=present"
