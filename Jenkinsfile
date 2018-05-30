@@ -26,5 +26,22 @@ pipeline {
                 archiveArtifacts 'frontend/dist/*'
             }
         }
+        stage('Docker Compose') {
+            steps {
+                echo 'Building Docker'
+                sh 'docker-compose up -d --build'
+            }
         }
+        stage('Testing the APP') {
+            steps {
+                echo 'Running test cases'
+                sh '/usr/bin/curl http://localhost:4200'
+            }
+        }
+    }
+    post { 
+        always { 
+            sh 'docker-compose down'
+        }
+    }
 }
