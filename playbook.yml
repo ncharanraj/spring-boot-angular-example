@@ -8,6 +8,7 @@
       with_items:
         - git
         - java
+        - java-devel
         - yum-utils
         - device-mapper-persistent-data
         - lvm2
