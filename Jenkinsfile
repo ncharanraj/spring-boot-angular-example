@@ -7,6 +7,7 @@ pipeline {
           agent {
             docker {
               image 'openjdk'
+              args '-v "$(pwd)"/target:$WORKSPACE/target'
             }
 
           }
@@ -41,7 +42,7 @@ pipeline {
         sh '/usr/bin/curl http://localhost:4200'
       }
     }
-    stage('') {
+    stage('error') {
       steps {
         input 'Finished using the web site? (Click "Proceed" to continue)'
       }
