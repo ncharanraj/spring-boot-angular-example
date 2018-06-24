@@ -6,7 +6,7 @@ pipeline {
         stage('Build Backend') {
           agent {
             docker {
-              image 'maven'
+              image 'openjdk'
             }
 
           }
@@ -39,6 +39,11 @@ pipeline {
       steps {
         echo 'Running test cases'
         sh '/usr/bin/curl http://localhost:4200'
+      }
+    }
+    stage('') {
+      steps {
+        input 'Finished using the web site? (Click "Proceed" to continue)'
       }
     }
   }
