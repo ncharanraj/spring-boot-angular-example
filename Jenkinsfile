@@ -4,7 +4,6 @@ pipeline {
     stage('Builds') {
       parallel {
         stage('Build Backend') {
-          agent any
           steps {
             echo 'Building backend'
             sh 'cd backend && ./mvnw package'
