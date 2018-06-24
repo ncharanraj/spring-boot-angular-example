@@ -35,7 +35,7 @@ pipeline {
         sh '/usr/bin/curl http://localhost:4200'
       }
     }
-    stage('error') {
+    stage('Final Step') {
       steps {
         input 'Finished using the web site? (Click "Proceed" to continue)'
       }
