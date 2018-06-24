@@ -42,9 +42,6 @@ pipeline {
       }
     }
   }
-  environment {
-    JAVA_HOME = '/usr/lib/jvm/java-1.8.0'
-  }
   post {
     always {
       sh 'docker-compose down'
