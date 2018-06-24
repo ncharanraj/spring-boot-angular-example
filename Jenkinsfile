@@ -4,13 +4,7 @@ pipeline {
     stage('Builds') {
       parallel {
         stage('Build Backend') {
-          agent {
-            docker {
-              image 'openjdk'
-              args '"-v $(pwd)/target:$WORKSPACE/backend/target"'
-            }
-
-          }
+          agent any
           steps {
             echo 'Building backend'
             sh 'cd backend && ./mvnw package'
