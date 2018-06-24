@@ -7,7 +7,7 @@ pipeline {
           agent {
             docker {
               image 'openjdk'
-              args '-v "$(pwd)"/target:$WORKSPACE/backend/target'
+              args '"-v $(pwd)/target:$WORKSPACE/backend/target"'
             }
 
           }
